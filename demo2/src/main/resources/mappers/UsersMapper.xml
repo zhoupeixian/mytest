@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.com.dao.UsersDao">
+    <select id="userList" resultType="Users">
+        select * from users
+    </select>
+    
+    <delete id="userDelete">
+        delete from users where id=#{id}
+    </delete>
+
+    <insert id="userSave" parameterType="Users">
+        insert into users values(null,#{username},#{password},#{name},#{phone},#{address})
+    </insert>
+    
+    <select id="userEdit" resultType="Users">
+        select * from users where 1=1
+        <if test="id!=null">
+            and id=#{id}
+        </if>
+    </select>
+
+    <update id="userUpdate" parameterType="Users">
+        update users set name=#{name},phone=#{phone},address=#{address} where id=#{id}
+    </update>
+
+    <update id="userReset">
+        update users set password=#{password1} where id=#{id}
+    </update>
+</mapper>
