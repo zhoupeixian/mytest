@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.com.dao.TypeDao">
+    <select id="typeList" resultType="Types">
+        select * from types  order by num
+    </select>
+
+    <delete id="typeDelete">
+        delete from types where id=#{id}
+    </delete>
+
+    <insert id="toAddTypes">
+        insert into types values(null ,#{name} ,#{num})
+    </insert>
+
+    <select id="typeEdit" resultType="Types">
+        select * from types where 1=1
+        <if test="id!=null">
+            and id=#{id}
+        </if>
+    </select>
+
+    <update id="typeUpdate" parameterType="Types">
+        update types set name=#{name},num=#{num} where id=#{id}
+    </update>
+</mapper>

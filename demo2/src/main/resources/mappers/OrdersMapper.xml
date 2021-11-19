@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.com.dao.OrdersDao">
+    <resultMap id="orderItemGoodMap" type="Orders">
+        <id property="id" column="id"></id>
+        <result property="total" column="total"></result>
+        <result property="amount" column="amount"></result>
+        <result property="status" column="status"></result>
+        <result property="paytype" column="paytype"></result>
+        <result property="name" column="name"></result>
+        <result property="phone" column="phone"></result>
+        <result property="address" column="address"></result>
+        <result property="systime" column="systime" javaType="Date"></result>
+        <collection property="user" ofType="Users">
+            <id property="id" column="uid"></id>
+            <result property="username" column="username"></result>
+            <result property="password" column="password"></result>
+        </collection>
+        <collection property="itemsList" ofType="Items">
+            <id property="id" column="iid"></id>
+            <result property="price" column="i_price"></result>
+            <result property="amount" column="i_amount"></result>
+            <collection property="good" ofType="Goods">
+                <id property="id" column="gid"></id>
+                <result property="cover" column="cover"></result>
+                <result property="name" column="g_name"></result>
+                <result property="intro" column="intro"></result>
+                <result property="spec" column="spec"></result>
+                <result property="intro" column="intro"></result>
+                <result property="price" column="price"></result>
+                <result property="stock" column="stock"></result>
+                <result property="sales" column="sales"></result>
+                <result property="content" column="content"></result>
+                <result property="type_id" column="type_id"></result>
+            </collection>
+        </collection>
+    </resultMap>
+    <select id="orderList" resultMap="orderItemGoodMap">
+        select
+            o.*,u.*,u.id as uid,i.id as iid,i.price as i_price,i.amount as i_amount,g.*,g.id as gid,g.name as g_name
+        from
+        orders o join users u on o.user_id=u.id join items i on o.id=i.order_id JOIN goods g on i.good_id=g.id
+        <where>
+        <if test="status!=null and status!=''">
+            and status=#{status}
+        </if>
+        </where>
+    </select>
+
+</mapper>
